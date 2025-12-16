@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { X } from "lucide-react";
 
 import useAuth from "@/stores/userStore";
+import { usePathname, useRouter } from "next/navigation";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -15,6 +16,9 @@ const navItems = [
 
 const Navigation = ({ isMobileOpen, setIsMobileOpen }) => {
   const { user, logOut } = useAuth();
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const requestOTP = async () => {
     try {
@@ -29,9 +33,9 @@ const Navigation = ({ isMobileOpen, setIsMobileOpen }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || "Verification failed");
       } else {
-        router.push("/verify-otp?redirect=checkout");
+        router.push(`/verify-otp?redirect=${encodeURIComponent(pathname)}`);
 
         toast.success(data.message);
       }
@@ -101,7 +105,11 @@ const Navigation = ({ isMobileOpen, setIsMobileOpen }) => {
                   aria-label="Login"
                   className="w-full justify-start"
                 >
-                  <Link href="/login">Login</Link>
+                  <Link
+                    href={`/login?redirect=${encodeURIComponent(pathname)}`}
+                  >
+                    Login
+                  </Link>
                 </Button>
               )}
             </div>
