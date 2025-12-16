@@ -79,7 +79,7 @@ EMAIL_PASS=
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/dshakerullahS/Furniro.git
+git clone https://github.com/mdshakerullahS/Furniro.git
 cd furniro
 ```
 
