@@ -1,5 +1,5 @@
 import CouponForm from "@/components/CouponForm";
-import { IoSearch } from "react-icons/io5";
+import { Search } from "lucide-react";
 
 const Page = () => {
   return (
@@ -18,7 +18,7 @@ const Page = () => {
               aria-label="Search"
               className="p-1 rounded-full hover:bg-accent/40 hover:text-accent-foreground/80 transition-colors duration-300 cursor-pointer"
             >
-              <IoSearch />
+              <Search />
             </button>
           </form>
           <table className="w-full">
