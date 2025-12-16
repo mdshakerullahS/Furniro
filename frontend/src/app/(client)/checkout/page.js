@@ -104,7 +104,7 @@ export default function Page() {
                 <FieldLabel htmlFor="fullName">Full name</FieldLabel>
                 <Input
                   id="fullName"
-                  placeholder={user.name}
+                  placeholder={user?.name}
                   readOnly
                   className="cursor-not-allowed"
                 />
@@ -113,7 +113,7 @@ export default function Page() {
                 <FieldLabel htmlFor="email">Email Address</FieldLabel>
                 <Input
                   id="email"
-                  placeholder={user.email}
+                  placeholder={user?.email}
                   readOnly
                   className="cursor-not-allowed"
                 />
