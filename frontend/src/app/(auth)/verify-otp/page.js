@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/input-otp";
 import useAuth from "@/stores/userStore";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const Page = () => {
+const OTPForm = () => {
   const { setUser } = useAuth();
 
   const searchParams = useSearchParams();
@@ -79,6 +79,20 @@ const Page = () => {
 
       <Button disabled={value.length !== 6}>Submit</Button>
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex flex-col items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <OTPForm />
+    </Suspense>
   );
 };
 
