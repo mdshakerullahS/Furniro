@@ -1,0 +1,169 @@
+import Product from "../models/product.model.js";
+import Category from "../models/category.model.js";
+
+export const addProduct = async (req, res, next) => {
+  try {
+    const { title, description, category, features, price, stock } = req.body;
+
+    if (!title || !price || !category) {
+      return res.status(400).json({
+        message: "Title, price, and category are required",
+      });
+    }
+
+    const imageURLs = req.files?.length
+      ? req.files.map((file) => file.path)
+      : [];
+    const cloudinaryIDs = req.files?.length
+      ? req.files.map((file) => file.filename)
+      : [];
+
+    const matchedCategory = await Category.findOne({ _id: category });
+
+    if (!matchedCategory) {
+      return res.status(404).json({
+        message: "Category not found",
+      });
+    }
+
+    matchedCategory.productCount += 1;
+
+    await matchedCategory.save();
+
+    await Product.create({
+      title,
+      description,
+      categoryID: matchedCategory._id,
+      features,
+      price,
+      stock,
+      imageURLs,
+      cloudinaryIDs,
+    });
+
+    return res.status(201).json({
+      message: "Product added successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getProducts = async (req, res, next) => {
+  try {
+    const {
+      category,
+      minPrice,
+      maxPrice,
+      sortBy,
+      currentPage = 1,
+      limit = 20,
+    } = req.query;
+
+    const filter = {};
+    if (category) filter.categoryID = category;
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    let sort = {};
+    if (sortBy === "default") sort = { createdAt: -1 };
+    else if (sortBy === "price_low_high") sort = { price: 1 };
+    else if (sortBy === "price_high_low") sort = { price: -1 };
+
+    const skip = (currentPage - 1) * limit;
+
+    const [products, totalProducts] = await Promise.all([
+      Product.find(filter)
+        .sort(sort)
+        .skip(skip)
+        .limit(Number(limit))
+        .select("-cloudinaryIDs"),
+      Product.countDocuments(filter),
+    ]);
+
+    res.json({ products, totalProducts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getSingleProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id).select(
+      "-cloudinaryIDs"
+    );
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    return res.status(200).json({ product });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    const { title, description, category, price, stock } = req.body;
+
+    const matchedCategory = await Category.findOne({ name: category.trim() });
+
+    product.title = title || product.title;
+    product.description = description || product.description;
+    product.categoryID = matchedCategory._id || product.categoryID;
+    product.price = price || product.price;
+    product.stock = stock || product.stock;
+
+    product.imageURLs = req.files?.length
+      ? req.files.map((file) => file.path)
+      : product.imageURLs;
+    product.cloudinaryIDs = req.files?.length
+      ? req.files.map((file) => file.filename)
+      : product.cloudinaryIDs;
+
+    await product.save();
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    for (const id of product.cloudinaryIDs) {
+      await cloudinary.uploader.destroy(id);
+    }
+
+    await product.deleteOne();
+
+    return res.status(200).json({
+      message: "Product deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};

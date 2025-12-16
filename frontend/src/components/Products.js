@@ -1,0 +1,77 @@
+import Image from "next/image";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { AspectRatio } from "./ui/aspect-ratio";
+
+import Link from "next/link";
+import { Button } from "./ui/button";
+
+const Products = ({ products }) => {
+  if (!products || !products.length)
+    return (
+      <div className="text-center py-36 md:py-56 lg:py-48">
+        No product Found
+      </div>
+    );
+
+  return (
+    <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+      {Array.isArray(products) &&
+        products.map((product) => {
+          const outOfStock = product.stock === 0;
+
+          return (
+            <Card
+              key={product._id}
+              className="p-2 m-2.5 group transition-all hover:shadow-lg"
+            >
+              <CardHeader className="p-0">
+                <Link href={`/shop/products/${product._id}`}>
+                  <AspectRatio
+                    ratio={1.5}
+                    className="rounded-lg overflow-hidden"
+                  >
+                    <Image
+                      src={product.imageURLs[0]}
+                      fill
+                      sizes="60vw"
+                      alt="Image"
+                      loading="lazy"
+                      className="object-cover hover:scale-[1.1] transition-all duration-300"
+                    />
+                  </AspectRatio>
+                </Link>
+                <CardTitle>
+                  <Link href={`/shop/products/${product._id}`}>
+                    {product.title}
+                  </Link>
+                </CardTitle>
+                <CardDescription>
+                  <div className="text-lg font-semibold">${product.price}</div>
+                </CardDescription>
+                <CardContent className="p-0">
+                  <Button
+                    asChild
+                    size="sm"
+                    className="w-full"
+                    disabled={outOfStock}
+                  >
+                    <Link href={`/shop/products/${product._id}`}>
+                      {outOfStock ? "Out of Stock" : "View Product"}
+                    </Link>
+                  </Button>
+                </CardContent>
+              </CardHeader>
+            </Card>
+          );
+        })}
+    </div>
+  );
+};
+
+export default Products;
