@@ -33,14 +33,14 @@ const Navigation = ({ isMobileOpen, setIsMobileOpen }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Verification failed");
+        throw new Error(data.message || "Failed to send OTP");
       } else {
         router.push(`/verify-otp?redirect=${encodeURIComponent(pathname)}`);
 
         toast.success(data.message);
       }
     } catch (err) {
-      toast.error(err.message || "Failed to send OTP");
+      toast.error(err.message);
     }
   };
 

@@ -84,14 +84,14 @@ const Page = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || "Failed to send OTP");
       } else {
-        router.push("/verify-otp?redirect=checkout");
+        router.push("/verify-otp?redirect=cart");
 
         toast.success(data.message);
       }
     } catch (err) {
-      toast.error(err.message || "Failed to send OTP");
+      toast.error(err.message);
     }
   };
 
