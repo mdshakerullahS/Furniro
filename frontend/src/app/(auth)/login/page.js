@@ -7,11 +7,11 @@ import useAuth from "@/stores/userStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const Page = () => {
+const LoginForm = () => {
   const { user, setUser } = useAuth();
 
   const { register, handleSubmit, watch, reset } = useForm();
@@ -127,6 +127,20 @@ const Page = () => {
         </p>
       </form>
     </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-screen flex flex-col items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 };
 
