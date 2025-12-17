@@ -59,12 +59,12 @@ const RegisterForm = () => {
         reset();
         setUser(result.user);
         toast.success(result.message);
-        toast.success("Verify your email");
 
         requestOTP();
+        toast.success("Verify your email");
       }
     } catch (err) {
-      toast.error(err.message || "Registration failed");
+      toast.error(err.message);
     }
   };
 
@@ -81,7 +81,7 @@ const RegisterForm = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || "Failed to send OTP");
       } else {
         router.push(
           redirect ? `/verify-otp?redirect=${redirect}` : "/verify-otp"
@@ -90,7 +90,7 @@ const RegisterForm = () => {
         toast.success(data.message);
       }
     } catch (err) {
-      toast.error(err.message || "Failed to send OTP");
+      toast.error(err.message);
     }
   };
 
