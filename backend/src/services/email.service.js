@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import bcrypt from "bcryptjs";
 import OTP from "../models/OTP.model.js";
 
@@ -7,15 +7,10 @@ export const genOTP = () => {
 };
 
 export const sendOTPMail = async (email, otp) => {
-  const maiTransporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
-  await maiTransporter.sendMail({
+  await resend.emails.send({
+    from: "onboarding@resend.dev",
     to: email,
     subject: "OTP for verification",
     html: `<p>Your OTP for verification is: <b>${otp}</b>.</p><p>It expires in 5 minutes.</p>`,

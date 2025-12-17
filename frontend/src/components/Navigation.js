@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 
 import useAuth from "@/stores/userStore";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -79,7 +80,7 @@ const Navigation = ({ isMobileOpen, setIsMobileOpen }) => {
                     <Button
                       variant="ghost"
                       onClick={() => {
-                        requestOTP;
+                        requestOTP();
                         setIsMobileOpen(false);
                       }}
                       className="w-full justify-start cursor-pointer"
