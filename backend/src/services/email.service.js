@@ -11,7 +11,7 @@ export const sendOTPMail = async (email, otp) => {
 
   await resend.emails.send({
     from: "onboarding@resend.dev",
-    to: email,
+    to: [email],
     subject: "OTP for verification",
     html: `<p>Your OTP for verification is: <b>${otp}</b>.</p><p>It expires in 5 minutes.</p>`,
   });
