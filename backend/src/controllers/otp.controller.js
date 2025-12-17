@@ -10,7 +10,7 @@ export const reqOTP = async (req, res, next) => {
     const otp = genOTP();
 
     const user = await User.findOne({ _id: userID });
-    const email = user.email;
+    const email = user?.email;
 
     await saveOTP(email, otp);
     await sendOTPMail(email, otp);
