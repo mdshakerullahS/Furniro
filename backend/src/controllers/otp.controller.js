@@ -5,7 +5,7 @@ import User from "../models/user.model.js";
 
 export const reqOTP = async (req, res, next) => {
   try {
-    const userID = req.user._id;
+    const userID = req.user?._id;
 
     const otp = genOTP();
 
@@ -45,16 +45,14 @@ export const verifyOTP = async (req, res, next) => {
 
     await OTP.deleteOne({ email: user.email });
 
-    return res
-      .status(200)
-      .json({
-        user: {
-          name: user.name,
-          email: user.email,
-          isVerified: user.isVerified,
-        },
-        message: "OTP verified",
-      });
+    return res.status(200).json({
+      user: {
+        name: user.name,
+        email: user.email,
+        isVerified: user.isVerified,
+      },
+      message: "OTP verified",
+    });
   } catch (err) {
     next(err);
   }

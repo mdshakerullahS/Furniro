@@ -195,7 +195,7 @@ export const login = async (req, res, next) => {
 
 export const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const token = req.cookies?.token;
     if (!token) {
       return res.status(401).json({
         message: "Token not found",
