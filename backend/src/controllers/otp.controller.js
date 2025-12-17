@@ -6,11 +6,18 @@ import User from "../models/user.model.js";
 export const reqOTP = async (req, res, next) => {
   try {
     const userID = req.user?._id;
+    const email = req.user?.email;
+
+    if (!userID)
+      return res.status(401).json({ message: "Not authorized, please login" });
+
+    if (!email) {
+      const user = await User.findById(userID);
+      if (!user) return res.status(404).json({ message: "User not found" });
+      email = user.email;
+    }
 
     const otp = genOTP();
-
-    const user = await User.findOne({ _id: userID });
-    const email = user?.email;
 
     await saveOTP(email, otp);
     await sendOTPMail(email, otp);
