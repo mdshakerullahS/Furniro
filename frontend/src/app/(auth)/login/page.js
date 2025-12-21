@@ -60,15 +60,15 @@ const LoginForm = () => {
           isVerified: resultUser.isVerified,
         });
         toast.success(result.message);
-      }
 
-      router.push(
-        redirect
-          ? redirect
-          : result.user.role === "admin"
-          ? "/admin/dashboard"
-          : "/"
-      );
+        router.push(
+          redirect
+            ? redirect
+            : result.user.role === "admin"
+            ? "/admin/dashboard"
+            : "/"
+        );
+      }
     } catch (err) {
       toast.error(err.message);
     }
