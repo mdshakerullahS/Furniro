@@ -21,7 +21,6 @@ export async function proxy(req) {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-token`,
         {
           method: "GET",
-          credentials: "include",
           headers: { Cookie: `token=${token}` },
         }
       );
@@ -31,8 +30,8 @@ export async function proxy(req) {
       if (!res.ok || data.decoded.role !== "admin") {
         return NextResponse.redirect(new URL("/unauthorized", req.url));
       }
-    } catch (e) {
-      return NextResponse.redirect(new URL("/login", req.url));
+    } catch (err) {
+      return NextResponse.redirect(loginUrl);
     }
   }
 
