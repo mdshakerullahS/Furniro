@@ -11,7 +11,7 @@ This project demonstrates a complete real‑world e‑commerce workflow using **
 ### 👤 User Features
 
 - User authentication (Register / Login)
-- Email verification using Nodemailer
+- Email verification using Brevo
 - Browse products with filters
 - Add to cart and manage cart items
 - Place orders (dummy checkout)
@@ -48,7 +48,7 @@ This project demonstrates a complete real‑world e‑commerce workflow using **
 
 ## 🔐 Environment Variables
 
-### Frontend (`.env.local`)
+### Frontend (`.env`)
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
