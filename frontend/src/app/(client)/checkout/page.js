@@ -22,6 +22,12 @@ export default function Page() {
     getCart();
   }, []);
 
+  useEffect(() => {
+    if (!cart?.items?.length) {
+      router.push("/shop");
+    }
+  }, [cart]);
+
   const city = watch("city");
   const street = watch("street");
   const zip = watch("zip");
