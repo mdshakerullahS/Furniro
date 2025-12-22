@@ -52,6 +52,7 @@ export const register = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      partitioned: process.env.NODE_ENV === "production",
       maxAge: 168 * 60 * 60 * 1000,
     });
 
@@ -142,7 +143,7 @@ export const login = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-      partitioned: true,
+      partitioned: process.env.NODE_ENV === "production",
       maxAge: 168 * 60 * 60 * 1000,
     });
 

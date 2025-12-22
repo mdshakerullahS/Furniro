@@ -7,11 +7,10 @@ export async function proxy(req) {
   const checkoutProtected = pathname.startsWith("/checkout");
   const adminProtected = pathname.startsWith("/admin/dashboard");
 
+  const loginUrl = new URL("/login", req.url);
+  loginUrl.searchParams.set("redirect", pathname);
+
   if ((checkoutProtected || adminProtected) && !token) {
-    const loginUrl = new URL("/login", req.url);
-
-    loginUrl.searchParams.set("redirect", pathname);
-
     return NextResponse.redirect(loginUrl);
   }
 
@@ -21,13 +20,13 @@ export async function proxy(req) {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-token`,
         {
           method: "GET",
-          headers: { Cookie: `token=${token}` },
+          headers: { cookie: req.headers.get("cookie") || "" },
         }
       );
 
       const data = await res.json();
 
-      if (!res.ok || data.decoded.role !== "admin") {
+      if (!res.ok || data?.decoded?.role !== "admin") {
         return NextResponse.redirect(new URL("/unauthorized", req.url));
       }
     } catch (err) {
@@ -39,5 +38,5 @@ export async function proxy(req) {
 }
 
 export const config = {
-  matcher: ["/checkout", "/admin/dashboard/:path*"],
+  matcher: ["/checkout/:path*", "/admin/:path*"],
 };
