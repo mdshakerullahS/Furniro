@@ -1,9 +1,10 @@
 import AdminHeader from "@/components/AdminHeader";
 import AdminSidebar from "@/components/AdminSidebar";
+import AdminProvider from "@/providers/adminProvider";
 
 const AdminLayout = ({ children }) => {
   return (
-    <>
+    <AdminProvider>
       <AdminHeader />
       <div className="w-full h-[58px]" />
       <div className="w-full h-[calc(100vh-58px)] flex">
@@ -12,7 +13,7 @@ const AdminLayout = ({ children }) => {
           {children}
         </div>
       </div>
-    </>
+    </AdminProvider>
   );
 };
 

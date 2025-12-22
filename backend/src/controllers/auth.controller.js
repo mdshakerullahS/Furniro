@@ -195,31 +195,13 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const verifyToken = async (req, res, next) => {
-  try {
-    const token = req.cookies?.token;
-    if (!token) {
-      return res.status(401).json({
-        message: "Token not found",
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return res.status(200).json({ decoded });
-  } catch (err) {
-    next(err);
-  }
-};
-
 export const loggedInUser = async (req, res, next) => {
   try {
     const userID = req.user?._id;
 
     const user = await User.findOne({ _id: userID }).select("-password");
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!user) return;
 
     return res.status(200).json({ user });
   } catch (error) {
