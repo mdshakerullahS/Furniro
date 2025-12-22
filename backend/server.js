@@ -40,6 +40,8 @@ server.use("/api/messages", messageRoutes);
 
 // Error middleware
 server.use((err, _, res, __) => {
+  console.log(err.message);
+
   return res.status(err.status || 500).json({
     message: err.message || "Internal server error",
   });
