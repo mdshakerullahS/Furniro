@@ -1,17 +1,40 @@
-const DashboardMiniCard = () => {
+import { ChartBarDecreasing, ChartColumnIncreasing } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+
+const DashboardMiniCard = ({ k }) => {
   return (
-    <div className="w-[180px] bg-accent p-2 rounded-md">
-      <div className="flex items-center justify-center gap-8">
-        <div className="space-y-2">
-          <div>
-            <h4 className="text-xl font-bold">$10,000</h4>
-            <p className="text-xs text-muted-foreground">Total Revenue</p>
-          </div>
-          <p className="text-xs">22.45%</p>
-        </div>
-        <div className="w-10 h-10 bg-accent-foreground rounded-full"></div>
-      </div>
-    </div>
+    <Card className="flex-row items-center justify-between p-2">
+      <CardHeader className="w-full gap-0 px-2">
+        <CardTitle className="text-xl font-bold">{`${
+          k.label === "Total Revenue" ? "$" : ""
+        }${k.value}${k.label === "Conversion Rate" ? "%" : ""}`}</CardTitle>
+
+        <CardDescription className="text-xs text-muted-foreground">
+          {k.label}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="px-2">
+        {k.changeType === "Increase" ? (
+          <ChartColumnIncreasing className="text-green-500" size={20} />
+        ) : (
+          <ChartBarDecreasing className="text-red-500" size={20} />
+        )}
+        <p
+          className={`text-xs ${
+            k.changeType === "Increase" ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          {k.change}%
+        </p>
+      </CardContent>
+    </Card>
   );
 };
 

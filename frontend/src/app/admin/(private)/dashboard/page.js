@@ -1,5 +1,33 @@
+import { ChartAreaInteractive } from "@/components/AreaChart";
 import DashboardMiniCard from "@/components/DashboardMiniCard";
 import { Button } from "@/components/ui/button";
+
+const kpis = [
+  {
+    label: "Total Revenue",
+    value: 12000,
+    change: 22,
+    changeType: "Increase",
+  },
+  {
+    label: "Total Orders",
+    value: 100,
+    change: 18,
+    changeType: "Increase",
+  },
+  {
+    label: "Customers",
+    value: 120,
+    change: 4.5,
+    changeType: "Increase",
+  },
+  {
+    label: "Conversion Rate",
+    value: 89.7,
+    change: 4.5,
+    changeType: "Increase",
+  },
+];
 
 const Page = () => {
   return (
@@ -15,12 +43,15 @@ const Page = () => {
           Manage
         </Button>
       </div>
-      <div className="flex justify-between">
-        <DashboardMiniCard />
-        <DashboardMiniCard />
-        <DashboardMiniCard />
-        <DashboardMiniCard />
-        <DashboardMiniCard />
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2">
+        {kpis.map((k, idx) => (
+          <DashboardMiniCard key={idx} k={k} />
+        ))}
+      </div>
+
+      <div>
+        <ChartAreaInteractive />
       </div>
     </div>
   );
