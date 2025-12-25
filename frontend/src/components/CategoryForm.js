@@ -3,55 +3,88 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import ImageUpload from "./ImageUpload";
+import { Field, FieldLabel } from "./ui/field";
+import { Input } from "./ui/input";
+import { Controller, useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const CategoryForm = () => {
-  const [name, setName] = useState(null);
-  const [images, setImages] = useState(null);
+  const { register, watch, handleSubmit, control, reset } = useForm({
+    defaultValues: {
+      name: "",
+      images: [],
+    },
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
 
-    const formData = new FormData();
-    formData.append("name", name);
-    if (images && images[0]) {
-      formData.append("image", images[0]);
-    }
+  const name = watch("name");
+  const images = watch("images");
 
+  const onSubmit = async (data) => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
+      setLoading(true);
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      if (data.images && data.images.length) {
+        formData.append("image", data.images[0]);
+      }
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
         method: "POST",
         credentials: "include",
         body: formData,
       });
-    } catch (err) {}
+
+      const result = await res.json();
+
+      if (!res.ok) throw new Error(result.message);
+      else {
+        reset();
+        toast.success(result.message);
+      }
+    } catch (err) {
+      toast.error(err.message || "Failed to add category");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <h2 className="text-xl font-bold">Category Info</h2>
 
-      <form onSubmit={handleSubmit} className="py-2 space-y-2">
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-semibold">Category Name</label>
-          <input
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-            className="max-w-[256px] pl-2 py-1 border border-border outline-0 rounded-md"
-          />
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="py-2 space-y-2">
+        <Field className="flex flex-col gap-2">
+          <FieldLabel>Category Name</FieldLabel>
+          <Input type="text" {...register("name")} />
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-semibold">Image</label>
-          <ImageUpload maxFiles={1} setImages={setImages} />
-        </div>
+        <Field>
+          <FieldLabel>Image</FieldLabel>
+          <Controller
+            control={control}
+            name="images"
+            render={({ field }) => (
+              <ImageUpload
+                maxFiles={1}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </Field>
 
         <div className="flex justify-center">
           <Button
             type="submit"
             disabled={!name || !images}
             aria-label="Add category"
+            className="cursor-pointer"
           >
-            Add category
+            {loading ? <Loader2 className="animate-spin" /> : "Add Category"}
           </Button>
         </div>
       </form>
