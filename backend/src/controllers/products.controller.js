@@ -3,7 +3,15 @@ import Category from "../models/category.model.js";
 
 export const addProduct = async (req, res, next) => {
   try {
-    const { title, description, category, features, price, stock } = req.body;
+    const {
+      title,
+      description,
+      category,
+      features,
+      price,
+      discountPrice,
+      stock,
+    } = req.body;
 
     if (!title || !price || !category) {
       return res.status(400).json({
@@ -36,6 +44,7 @@ export const addProduct = async (req, res, next) => {
       categoryID: matchedCategory._id,
       features,
       price,
+      discountPrice,
       stock,
       imageURLs,
       cloudinaryIDs,
@@ -117,7 +126,8 @@ export const updateProduct = async (req, res, next) => {
       });
     }
 
-    const { title, description, category, price, stock } = req.body;
+    const { title, description, category, price, discountPrice, stock } =
+      req.body;
 
     const matchedCategory = await Category.findOne({ name: category.trim() });
 
@@ -125,6 +135,7 @@ export const updateProduct = async (req, res, next) => {
     product.description = description || product.description;
     product.categoryID = matchedCategory._id || product.categoryID;
     product.price = price || product.price;
+    product.discountPrice = discountPrice || product.discountPrice;
     product.stock = stock || product.stock;
 
     product.imageURLs = req.files?.length
