@@ -124,20 +124,20 @@ const Page = () => {
             )}
 
             <div className="w-full flex items-center gap-2 overflow-x-auto">
-              {product.imageURLs.map((img) => (
+              {product.imageURLs.map((img, idx) => (
                 <Card
-                  key={img}
+                  key={idx}
                   onClick={() => setImage(img)}
-                  className={`p-0 cursor-pointer hover:ring-2 hover:ring-primary w-20 h-20`}
+                  className="p-0 cursor-pointer w-20 h-20 overflow-hidden"
                 >
-                  <AspectRatio ratio={1} className="rounded-lg overflow-hidden">
+                  <AspectRatio ratio={1}>
                     <Image
                       src={img}
                       fill
                       sizes="72px"
-                      alt="Product Image"
+                      alt={`Product Image ${idx + 1}`}
                       loading="lazy"
-                      className="object-cover"
+                      className="object-cover hover:scale-110"
                     />
                   </AspectRatio>
                 </Card>
@@ -148,7 +148,14 @@ const Page = () => {
           <div className="space-y-5">
             <h1 className="text-3xl font-bold">{product.title}</h1>
 
-            <p className="text-2xl font-semibold">${product.price}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-2xl text-foreground font-semibold">
+                ${product.discountPrice || product.price}
+              </p>
+              <p className="text-lg text-muted-foreground line-through">
+                ${product.discountPrice && product.price}
+              </p>
+            </div>
 
             <Separator />
 
