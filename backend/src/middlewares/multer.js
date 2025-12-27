@@ -5,7 +5,9 @@ import multer from "multer";
 const categoryStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "eCom/categories",
+    folder: `${
+      process.env.NODE_ENV === "production" ? "eCom" : "localECom"
+    }/categories`,
     public_id: (_, file) =>
       `${Date.now()}_${file.originalname
         .split(".")[0]
@@ -18,7 +20,9 @@ const categoryStorage = new CloudinaryStorage({
 const productStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "eCom/products",
+    folder: `${
+      process.env.NODE_ENV === "production" ? "eCom" : "localECom"
+    }/products`,
     public_id: (_, file) =>
       `${Date.now()}_${file.originalname
         .split(".")[0]
