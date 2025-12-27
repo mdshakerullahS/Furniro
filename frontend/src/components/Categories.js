@@ -4,6 +4,8 @@ import useCategory from "@/stores/categoryStore";
 import Image from "next/image";
 import { Suspense, useEffect } from "react";
 import { AspectRatio } from "./ui/aspect-ratio";
+import { Card } from "./ui/card";
+import { useRouter } from "next/navigation";
 
 const Categories = () => {
   const { categories, getCategories } = useCategory();
@@ -16,12 +18,8 @@ const Categories = () => {
 
   return (
     <section className="my-12 px-2 md:px-4 lg:px-8 space-y-8">
-      <div className="flex flex-col items-center text-center">
-        <h2 className="text-2xl font-bold">Browse The Range</h2>
-        <p className="text-muted-foreground">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </p>
-      </div>
+      <h2 className="text-2xl text-center font-bold">Featured Categories</h2>
+
       <Suspense fallback={<div>Loading...</div>}>
         <CategoryCard categories={categories} />
       </Suspense>
@@ -30,22 +28,36 @@ const Categories = () => {
 };
 
 const CategoryCard = ({ categories }) => {
+  const { setSelectedCategory } = useCategory();
+  const router = useRouter();
+
+  const handleClick = (category) => {
+    setSelectedCategory(category);
+    router.push("/shop");
+  };
+
   return (
     <div className="flex gap-2 md:gap-4 py-4 overflow-x-auto">
       {categories &&
         categories.map((category) => (
-          <div key={category.name} className="w-25 flex flex-col items-center">
-            <AspectRatio ratio={1}>
-              <Image
-                src={category.imageURL}
-                fill
-                sizes="50vw"
-                alt={category.name}
-                loading="lazy"
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
-            <h3 className="font-semibold">{category.name}</h3>
+          <div
+            key={category._id}
+            onClick={() => handleClick(category._id)}
+            className="cursor-pointer"
+          >
+            <Card className="w-25 p-0 overflow-hidden">
+              <AspectRatio ratio={1}>
+                <Image
+                  src={category.imageURL}
+                  fill
+                  sizes="50vw"
+                  alt={category.name}
+                  loading="lazy"
+                  className="object-cover hover:scale-110"
+                />
+              </AspectRatio>
+            </Card>
+            <h3 className="text-center font-semibold">{category.name}</h3>
           </div>
         ))}
     </div>

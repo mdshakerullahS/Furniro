@@ -28,7 +28,7 @@ const Page = () => {
   const { categories, getCategories } = useCategory();
   const [products, setProducts] = useState([]);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const { selectedCategory, setSelectedCategory } = useCategory();
   const [sortBy, setSortBy] = useState("default");
   const [limit, setLimit] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +64,7 @@ const Page = () => {
       console.error("Failed to fetch products:", err);
     }
   };
+
   useEffect(() => {
     getProducts();
   }, [selectedCategory, minPrice, maxPrice, sortBy, currentPage, limit]);

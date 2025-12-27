@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const useCategory = create((set) => ({
   categories: [],
+  selectedCategory: "",
 
   getCategories: async () => {
     try {
@@ -17,6 +18,10 @@ const useCategory = create((set) => ({
     } catch (error) {
       console.log(error.message);
     }
+  },
+
+  setSelectedCategory: (category) => {
+    set({ selectedCategory: category });
   },
 }));
 
