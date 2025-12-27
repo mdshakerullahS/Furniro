@@ -41,7 +41,7 @@ This project demonstrates a complete real‑world e‑commerce workflow using **
 - **Express.js**
 - **MongoDB** (Mongoose)
 - **JWT Authentication**
-- **Nodemailer** (email verification)
+- **Brevo** (email verification)
 - **Cloudinary** (image uploads)
 
 ---
