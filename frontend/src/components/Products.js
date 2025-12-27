@@ -52,7 +52,14 @@ const Products = ({ products }) => {
                   </Link>
                 </CardTitle>
                 <CardDescription>
-                  <div className="text-lg font-semibold">${product.price}</div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg text-foreground font-semibold">
+                      ${product.discountPrice || product.price}
+                    </p>
+                    <p className="text-muted-foreground line-through">
+                      ${product.discountPrice && product.price}
+                    </p>
+                  </div>
                 </CardDescription>
                 <CardContent className="p-0">
                   <Button
