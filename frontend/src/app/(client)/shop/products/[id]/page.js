@@ -90,7 +90,7 @@ const Page = () => {
 
   let existingItem;
   if (Array.isArray(cart?.items) && cart.items.length) {
-    existingItem = cart.items.find((i) => i.productID._id === product._id);
+    existingItem = cart.items.find((i) => i.productID?._id === product?._id);
   }
 
   if (product) {
@@ -99,7 +99,7 @@ const Page = () => {
       : quantities[product?._id] || 1;
 
     const isMin = currentQty <= 1;
-    const isMax = currentQty >= product.stock;
+    const isMax = currentQty >= product?.stock;
 
     return (
       <div className="max-w-7xl mx-auto px-4 py-10 space-y-12">
@@ -124,7 +124,7 @@ const Page = () => {
             )}
 
             <div className="w-full flex items-center gap-2 overflow-x-auto">
-              {product.imageURLs.map((img, idx) => (
+              {product?.imageURLs.map((img, idx) => (
                 <Card
                   key={idx}
                   onClick={() => setImage(img)}
@@ -146,15 +146,15 @@ const Page = () => {
           </div>
 
           <div className="space-y-5">
-            <h1 className="text-3xl font-bold">{product.title}</h1>
+            <h1 className="text-3xl font-bold">{product?.title}</h1>
 
             <div className="flex items-center gap-2">
               <p className="text-2xl text-foreground font-semibold">
-                ${product.discountPrice || product.price}
+                ${product?.discountPrice || product?.price}
               </p>
-              {product.discountPrice && (
+              {product?.discountPrice && (
                 <p className="text-lg text-muted-foreground line-through">
-                  ${product.price}
+                  ${product?.price}
                 </p>
               )}
             </div>
@@ -162,7 +162,7 @@ const Page = () => {
             <Separator />
 
             <ul>
-              {product.features?.map((f, i) => (
+              {product?.features?.map((f, i) => (
                 <li key={i}>- {f}</li>
               ))}
             </ul>
@@ -175,8 +175,8 @@ const Page = () => {
                 disabled={isMin}
                 onClick={() =>
                   existingItem
-                    ? updateQty(product._id, -1)
-                    : updateQtyOnPage(product._id, -1)
+                    ? updateQty(product?._id, -1)
+                    : updateQtyOnPage(product?._id, -1)
                 }
                 className="cursor-pointer"
               >
@@ -185,8 +185,8 @@ const Page = () => {
 
               <Button
                 size="lg"
-                disabled={existingItem || product.stock <= 0}
-                onClick={() => handleAddCart(product._id)}
+                disabled={existingItem || product?.stock <= 0}
+                onClick={() => handleAddCart(product?._id)}
                 className="cursor-pointer"
               >
                 Add to Cart ({currentQty})
@@ -200,8 +200,8 @@ const Page = () => {
                 disabled={isMax}
                 onClick={() =>
                   existingItem
-                    ? updateQty(product._id, +1)
-                    : updateQtyOnPage(product._id, +1)
+                    ? updateQty(product?._id, +1)
+                    : updateQtyOnPage(product?._id, +1)
                 }
                 className="cursor-pointer"
               >
@@ -209,7 +209,7 @@ const Page = () => {
               </Button>
             </div>
 
-            {product.stock <= 0 && (
+            {product?.stock <= 0 && (
               <p className="text-sm text-destructive">Out of stock</p>
             )}
           </div>
@@ -219,7 +219,7 @@ const Page = () => {
           <CardContent className="p-6 space-y-4">
             <h2 className="text-xl font-semibold">Product Description</h2>
             <p className="text-muted-foreground text-sm">
-              {product.description}
+              {product?.description}
             </p>
           </CardContent>
         </Card>
