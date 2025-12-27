@@ -152,9 +152,11 @@ const Page = () => {
               <p className="text-2xl text-foreground font-semibold">
                 ${product.discountPrice || product.price}
               </p>
-              <p className="text-lg text-muted-foreground line-through">
-                ${product.discountPrice && product.price}
-              </p>
+              {product.discountPrice && (
+                <p className="text-lg text-muted-foreground line-through">
+                  ${product.price}
+                </p>
+              )}
             </div>
 
             <Separator />

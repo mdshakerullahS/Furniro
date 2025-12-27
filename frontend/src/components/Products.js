@@ -56,9 +56,11 @@ const Products = ({ products }) => {
                     <p className="text-lg text-foreground font-semibold">
                       ${product.discountPrice || product.price}
                     </p>
-                    <p className="text-muted-foreground line-through">
-                      ${product.discountPrice && product.price}
-                    </p>
+                    {product.discountPrice && (
+                      <p className="text-muted-foreground line-through">
+                        ${product.price}
+                      </p>
+                    )}
                   </div>
                 </CardDescription>
                 <CardContent className="p-0">
