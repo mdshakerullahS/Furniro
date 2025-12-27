@@ -59,9 +59,10 @@ const Page = () => {
       formData.append("stock", data.stock);
       formData.append("category", data.selectedCategory);
       formData.append("discountPrice", data.discountPrice || "");
-      formData.append("features", data.features?.map((f) => f.title) || []);
-
-      data.images.forEach((file) => {
+      data.features?.forEach((f) => {
+        formData.append("features", f.title);
+      });
+      data.images?.forEach((file) => {
         formData.append("images", file);
       });
 
