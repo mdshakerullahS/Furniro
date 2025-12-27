@@ -53,7 +53,7 @@ const CategoryCard = ({ categories }) => {
                   sizes="50vw"
                   alt={category.name}
                   loading="lazy"
-                  className="object-cover hover:scale-110"
+                  className="object-cover hover:scale-110 transition-all duration-300"
                 />
               </AspectRatio>
             </Card>

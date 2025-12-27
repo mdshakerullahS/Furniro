@@ -137,7 +137,7 @@ const Page = () => {
                       sizes="72px"
                       alt={`Product Image ${idx + 1}`}
                       loading="lazy"
-                      className="object-cover hover:scale-110"
+                      className="object-cover hover:scale-110 transition-all duration-300"
                     />
                   </AspectRatio>
                 </Card>
