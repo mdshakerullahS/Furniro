@@ -23,7 +23,9 @@ const ProductsSection = () => {
         <Products products={products} />
       </Suspense>
 
-      <div className="w-full text-center">
+      <div
+        className={`${products.length <= 20 && "hidden"} w-full text-center`}
+      >
         <Button variant="outline" aria-label="Show more">
           <Link href={"/shop"}>Show More</Link>
         </Button>
