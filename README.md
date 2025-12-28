@@ -129,12 +129,21 @@ NEXT_PUBLIC_API_URL
 
 ## 📸 Screenshots
 
-> Add screenshots of:
-
 - Homepage
+
+  ![Homepage](Homepage.png)
+
 - Product listing
+
+  ![Product listing](Product_Listing.png)
+
 - Cart page
-- Admin dashboard
+
+  ![Cart page](Cart_Page.png)
+
+- Admin dashboard <small>(Dummy)</small>
+
+  ![Admin dashboard](Admin_Dashboard.png)
 
 ---
 
