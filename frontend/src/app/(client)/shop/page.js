@@ -30,7 +30,7 @@ const Page = () => {
 
   const { selectedCategory, setSelectedCategory } = useCategory();
   const [sortBy, setSortBy] = useState("default");
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(12);
   const [currentPage, setCurrentPage] = useState(1);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(99999);
@@ -96,8 +96,8 @@ const Page = () => {
                 <SelectValue placeholder="20" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="20">20</SelectItem>
-                <SelectItem value="40">40</SelectItem>
+                <SelectItem value="12">12</SelectItem>
+                <SelectItem value="24">24</SelectItem>
               </SelectContent>
             </Select>
           </div>

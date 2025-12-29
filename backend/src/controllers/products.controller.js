@@ -66,7 +66,7 @@ export const getProducts = async (req, res, next) => {
       maxPrice,
       sortBy,
       currentPage = 1,
-      limit = 20,
+      limit = 12,
     } = req.query;
 
     const filter = {};
