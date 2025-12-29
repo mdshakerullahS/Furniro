@@ -20,7 +20,7 @@ const Products = ({ products }) => {
     );
 
   return (
-    <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+    <div className="w-full grid grid-cols-2 md:grid-cols-[repeat(auto-fit,minmax(220px,240px))] px-0.5 py-0.5 md:px-0 md:py-0">
       {Array.isArray(products) &&
         products.map((product) => {
           const outOfStock = product.stock === 0;
@@ -28,7 +28,7 @@ const Products = ({ products }) => {
           return (
             <Card
               key={product._id}
-              className="p-2 m-2.5 group transition-all hover:shadow-lg"
+              className="p-2 m-1.5 md:m-2.5 group transition-all hover:shadow-lg"
             >
               <CardHeader className="p-0">
                 <Link href={`/shop/products/${product._id}`}>
