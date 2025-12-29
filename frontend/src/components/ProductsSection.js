@@ -7,7 +7,7 @@ import { Suspense, useEffect } from "react";
 import { Button } from "./ui/button";
 
 const ProductsSection = () => {
-  const { products, getProducts } = useProducts();
+  const { products, totalProducts, getProducts } = useProducts();
 
   useEffect(() => {
     getProducts();
@@ -23,9 +23,7 @@ const ProductsSection = () => {
         <Products products={products} />
       </Suspense>
 
-      <div
-        className={`${products.length <= 12 && "hidden"} w-full text-center`}
-      >
+      <div className={`${totalProducts <= 12 && "hidden"} w-full text-center`}>
         <Button variant="outline" aria-label="Show more">
           <Link href={"/shop"}>Show More</Link>
         </Button>
